@@ -20,7 +20,7 @@ public class BusServiceImpl implements BusService{
     SimpleDateFormat f1=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
     @Override
-    public String addBus(Bus bus)  {
+    public Bus addBus(Bus bus)  {
 //        Bus findBus=busRepo.getOne(bus.getBus_id());
 //
 //        if(findBus!=null){
@@ -35,10 +35,9 @@ public class BusServiceImpl implements BusService{
         b1.setType(bus.getType());
         b1.setPrice(bus.getPrice());
         b1.setDepartureDate(bus.getDepartureDate());
-        b1.setDuration(bus.getDuration());
 
-        busRepo.save(b1);
-        return "New Bus Added";
+        return busRepo.save(b1);
+
     }
 
 
@@ -65,7 +64,12 @@ public class BusServiceImpl implements BusService{
     }
 
     @Override
-    public void deleteBusbyId(Long bus_id) {
-        busRepo.deleteById(bus_id);
+    public void deleteBus(Bus bus) {
+        busRepo.delete(bus);
+    }
+
+    @Override
+    public List<Bus> BusAvailability(String sr, String ds, String d) {
+        return busRepo.BusAvailabilty(sr,ds,d);
     }
 }

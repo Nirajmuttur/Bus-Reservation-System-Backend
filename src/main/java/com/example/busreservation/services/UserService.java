@@ -17,9 +17,9 @@ public interface UserService
     void deleteUserById(Long id);
 
     void activateEmail(String activationHash);
-    void sendConfirmationEmailToUser(User user, String baseUrl);
+    String sendConfirmationEmailToUser(User user, String baseUrl);
 
-//    void addMoney(Long id, BigDecimal a);
+    void addMoney();
 //
 //    void deductMoney(Long id, BigDecimal a);
 }

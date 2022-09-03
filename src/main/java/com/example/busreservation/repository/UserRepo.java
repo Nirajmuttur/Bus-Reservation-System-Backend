@@ -8,17 +8,18 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Repository
 public interface UserRepo extends JpaRepository<User,Long> {
     User findOneByEmail(String email);
     User findOneByActivationHash(String activationHash);
 
-//    @Modifying
-//    @Query(value = "update users u set u.walletBalance=u.walletBalance + a where u.id=:i")
-//    void addMoney(@Param("i") Long Id, @Param("a") BigDecimal a);
-//
-//
+
+    @Query(value="select u from Users u ",nativeQuery = true)
+    public List<User> addMoney();
+
+
 //    @Modifying
 //    @Query(value = "update users u set u.walletBalance=u.walletBalance - a where u.id=:i")
 //    void deductMoney(@Param("i") Long Id, @Param("a") BigDecimal a);

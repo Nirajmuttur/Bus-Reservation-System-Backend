@@ -23,13 +23,11 @@ public class Bus {
     private String source;
     private String destination;
     private int seats;
-    private double distance;
+    private Long distance;
     private String type;
     private BigDecimal price;
     @NotNull
-    @JsonFormat(pattern="yyyy-MM-dd")
     private Date departureDate;
-    private String duration;
     @OneToMany(mappedBy = "bus", cascade = CascadeType.REMOVE)
     private List<Tickets> tickets;
 }
