@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -42,6 +43,13 @@ public class TicketServiceImpl implements TicketService{
         if(ticketCount+1 > bus.get().getSeats()){
             throw new RuntimeException("No Seats");
         }
+
+        bus.get().setSeats(bus.get().getSeats()-numberOfSeats);
+        busRepo.save(bus.get());
+
+        user.setWalletBalance(user.getWalletBalance().subtract(bus.get().getPrice()));
+        userRepo.save(user);
+
         Tickets tickets=new Tickets();
         tickets.setTicketNumber(UUID.randomUUID().toString());
         tickets.setBus(bus.get());
@@ -72,6 +80,26 @@ public class TicketServiceImpl implements TicketService{
     @Override
     public Optional<Tickets> getTicketById(Long id) {
         return ticketsRepo.findById(id);
+    }
+
+    @Override
+    public String cancelTickets(Long id) {
+        Optional<Tickets> ticket=ticketsRepo.findById(id);
+//        log.info(ticket.get().toString());
+        //bus
+        int seats = ticket.get().getNumberOfSeats();
+        Bus bus=ticket.get().getBus();
+        bus.setSeats(ticket.get().getNumberOfSeats()+bus.getSeats());
+        busRepo.save(bus);
+
+        //user
+        BigDecimal price= ticket.get().getBus().getPrice();
+        User user=ticket.get().getUser();
+        user.setWalletBalance(user.getWalletBalance().add(price));
+        userRepo.save(user);
+
+        ticketsRepo.delete(ticket.get());
+        return "Successfull";
     }
 
 }

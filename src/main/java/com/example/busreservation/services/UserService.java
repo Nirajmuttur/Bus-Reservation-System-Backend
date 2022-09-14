@@ -19,7 +19,8 @@ public interface UserService
     void activateEmail(String activationHash);
     String sendConfirmationEmailToUser(User user, String baseUrl);
 
-    void addMoney();
+    User addMoney(BigDecimal a,String id);
+    BigDecimal getWalletBalance(String email);
 //
-//    void deductMoney(Long id, BigDecimal a);
+    void deductMoney(BigDecimal a,String id);
 }

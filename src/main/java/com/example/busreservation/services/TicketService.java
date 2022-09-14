@@ -10,4 +10,6 @@ public interface TicketService {
     List<Tickets> getAllTickets();
     List<Tickets> getAllTicketsOfUser(String email);
     Optional<Tickets> getTicketById(Long id);
+
+    String cancelTickets(Long id);
 }

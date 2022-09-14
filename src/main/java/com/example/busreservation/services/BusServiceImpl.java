@@ -33,6 +33,7 @@ public class BusServiceImpl implements BusService{
         b1.setSeats(bus.getSeats());
         b1.setDistance(bus.getDistance());
         b1.setType(bus.getType());
+        b1.setTime((bus.getTime()));
         b1.setPrice(bus.getPrice());
         b1.setDepartureDate(bus.getDepartureDate());
 
@@ -71,5 +72,10 @@ public class BusServiceImpl implements BusService{
     @Override
     public List<Bus> BusAvailability(String sr, String ds, String d) {
         return busRepo.BusAvailabilty(sr,ds,d);
+    }
+
+    @Override
+    public void updateSeats(int seats, Long id) {
+        busRepo.updateSeats(seats,id);
     }
 }

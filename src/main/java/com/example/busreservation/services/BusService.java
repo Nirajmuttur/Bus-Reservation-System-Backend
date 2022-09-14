@@ -16,4 +16,6 @@ public interface BusService {
     void deleteBus(Bus bus);
 
     List<Bus> BusAvailability(String sr, String ds, String d);
+
+    public void  updateSeats(int seats,Long id);
 }

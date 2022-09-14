@@ -22,8 +22,9 @@ public class BusController {
     private BusService busService;
 
 
-    @PostMapping(value = "/admin/dummy/addbus")
+    @PostMapping(value = "/admin/addbus")
     public Bus saveBus(@RequestBody Bus bus){
+        log.info(bus.toString());
         return busService.addBus(bus);
     }
     @PostMapping(value = "/admin/updateBus")
@@ -44,8 +45,8 @@ public class BusController {
         busService.deleteBus(bus);
     }
 
-    @GetMapping(value="/check/{sr}/{ds}/{d}")
-    public List<Bus> BusAvailabilityCheck(@PathVariable("sr") String sr,@PathVariable("ds") String ds,@PathVariable("d") String d) throws ParseException {
+    @GetMapping(value="/user/check/{sr}/{ds}/{d}")
+    public List<Bus> BusAvailabilityCheck(@PathVariable("sr") String sr,@PathVariable("ds") String ds,@PathVariable("d") String d) {
 //        log.info("date {}",d);
 //        Date date1=new SimpleDateFormat("dd-MM-yyyy").parse(d);
 //        log.info("date2 {}",date1);

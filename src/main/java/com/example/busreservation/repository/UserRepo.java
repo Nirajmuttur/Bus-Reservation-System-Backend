@@ -15,9 +15,14 @@ public interface UserRepo extends JpaRepository<User,Long> {
     User findOneByEmail(String email);
     User findOneByActivationHash(String activationHash);
 
+    @Query(value = "select wallet_Balance from users where email=?1",nativeQuery = true)
+    public BigDecimal getWalletAmount(String id);
 
-    @Query(value="select u from Users u ",nativeQuery = true)
-    public List<User> addMoney();
+//    @Query(value = "update users set wallet_Balance=5000 where email=?1 ",nativeQuery = true)
+//    public int addMoney(BigDecimal a,String id);
+
+    @Query(value = "update users set walletbalance=walletbalance-?1 where id=?2",nativeQuery = true)
+    public String DeductMoney(BigDecimal a,Long id);
 
 
 //    @Modifying

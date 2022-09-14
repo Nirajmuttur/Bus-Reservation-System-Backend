@@ -33,10 +33,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private JavaMailSender mailSender;
     @Override
     public User addUser(User user) {
-//        User foundUser=userRepo.findOneByEmail(user.getEmail());
-//        if(foundUser!=null){
-//            log.error("User already exists");
-//        }
+        User foundUser=userRepo.findOneByEmail(user.getEmail());
+        if(foundUser!=null){
+            log.error("User already exists");
+            throw new RuntimeException();
+        }
         User user1=new User();
         user1.setEmail(user.getEmail());
         user1.setFirstName(user.getFirstName());
@@ -44,9 +45,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user1.setPhoneNumber(user.getPhoneNumber());
         user1.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         user1.setActivated(false);
-        user1.setWalletBalance(user.getWalletBalance());
+        user1.setWalletBalance(BigDecimal.valueOf(0.0));
         user1.setActivationHash(UUID.randomUUID().toString());
-        user1.setRole(user.getRole());
+        user1.setRole("ROLE_USER");
 
         return userRepo.save(user1);
     }
@@ -114,9 +115,25 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void addMoney() {
-        userRepo.addMoney();
+    public User addMoney(BigDecimal a, String id) {
+        User user=userRepo.findOneByEmail(id);
+        user.setWalletBalance(user.getWalletBalance().add(a));
+        return userRepo.save(user);
+
     }
+
+    @Override
+    public BigDecimal getWalletBalance(String email) {
+        return userRepo.getWalletAmount(email);
+    }
+
+    @Override
+    public void deductMoney(BigDecimal a, String id) {
+        User user=userRepo.findOneByEmail(id);
+        user.setWalletBalance(user.getWalletBalance().subtract(a));
+        userRepo.save(user);
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -135,15 +152,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 authorities);
     }
 
-//
-//    @Override
-//    public void deductMoney(Long id, BigDecimal a) {
-//        userRepo.deductMoney(id,a);
-//    }
 
 
-//    @Override
-//    public User getUserById(Long id) {
-//        return userRepo.findOne(id);
-//    }
+
+
+
 }

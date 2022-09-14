@@ -15,7 +15,7 @@ import java.util.Date;
 public class Tickets {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long ticket_id;
+    private Long id;
 
     @Column(nullable = false)
     private String ticketNumber;
